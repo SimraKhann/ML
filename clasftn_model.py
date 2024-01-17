@@ -1,13 +1,16 @@
-import pandas as pd 
-from sklearn.datasets import load_breast_cancer 
+import pandas as pd
+from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
-from sklearn.linear_model import LogisticRegression  
+from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import roc_auc_score
+from sklearn.metrics import recall_score
+from sklearn.metrics import precision_score
+from sklearn.metrics import f1_score
 
 data = load_breast_cancer()
-data_df = pd.DataFrame(data = data.data,columns = data.feature_names) 
+data_df = pd.DataFrame(data = data.data,columns = data.feature_names)
 #print(data_df.head())
 x = data.data
 y = data.target
@@ -28,6 +31,10 @@ y_pred = model.predict(x_test)
 accuracy = accuracy_score(y_test, y_pred)
 print("Accuracy:", accuracy)
 
+#F1_metrics
+f1 = f1_score(y_test, y_pred)
+print("F1_score:",f1)
+
 # auc scores
 auc_score = roc_auc_score(y_test, y_pred)
 print("Area Under The Curve:", auc_score)
@@ -37,9 +44,9 @@ precision= precision_score(y_test, y_pred)
 print("Precicion:", precision)
 
 #Formula: Specificity = TN / (TN + FP)
-specificity = recall_score(y_true, y_pred, pos_label=0)
+specificity = recall_score(y_test, y_pred, pos_label=0)
 print("Specificity:", specificity)
 
 #Formula: Sensitivity = TP / (TP + FN)
-sensitivity = recall_score(y_true, y_pred)
+sensitivity = recall_score(y_test, y_pred)
 print("Sensitivity:", sensitivity)
